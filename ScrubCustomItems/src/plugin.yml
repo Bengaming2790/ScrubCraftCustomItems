@@ -1,46 +1,60 @@
 name: ScrubCustomItems
-version: 1.0
-api-version: 1.20
+version: 1.2
+api-version: 1.21
 author: Regular Ben
 main: main.ca.techgarage.ScrubCustomItems.Main
-description: Created to serve Custom Items to the ScrubCraft server join the server @ scrubcraft.ca
+description: Created to serve Custom Items to the ScrubCraft server. Join the server @ scrubcraft.ca.
 
 commands:
-    hello:
-      aliases: [hi]
-      description: Testing Hello Command
-    spawnpaper:
-      description: "Gives the Player a Spawn Teleport Paper"
-      usage: "/spawnpaper"
-      aliases: [sppaper, sp]
-      permission: sc.customitems.give
-      permission-message: "You do not have permission to use this command!"
-    edgestone:
-      description: "Gives the Player Edgestone"
-      usage: "/edgestone"
-      aliases: [estone, es]
-      permission: sc.customitems.give
-      permission-message: "You do not have permission to use this command!"
-    serverheart:
-      description: "Gives the Player a Server Heart"
-      usage: "/serverheart"
-      aliases: [sh, sheart]
-      permission: sc.customitems.give
-      permission-message: "You do not have permission to use this command!"
-    blooddust:
-      description: "Gives the Player a piece of Blood Dust"
-      usage: "/blooddust"
-      aliases: [bd, bdust]
-      permission: sc.customitems.give
-      permission-message: "You do not have permission to use this command!"
-    teleportsword:
-      description: "Gives the Player a Teleport Sword"
-      usage: "/teleportsword"
-      aliases: [tpsw, tpsword]
-      permission: sc.customitems.give
-      permission-message: "You do not have permission to use this command!"
-    setSpawnPoint:
-      description: Sets the teleport point for the Spawn Paper
-      usage: /setSpawnPoint
-      permission: sc.customitems.setspawnpoint
-      permission-message: "You do not have permission to use this command!"
+  edgestone:
+    description: "Gives the Player Edgestone"
+    usage: "/edgestone <player name> <amount>"
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  serverheart:
+    description: "Gives the Player a Server Heart"
+    usage: "/serverheart <player name> <amount>"
+    aliases: [sh, sheart]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  blooddust:
+    description: "Gives the Player a piece of Blood Dust"
+    usage: "/blooddust <player name> <amount>"
+    aliases: [bd, bdust]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  teleportsword:
+    description: "Gives the Player a Teleport Sword"
+    usage: "/teleportsword <player name>"
+    aliases: [tpsw, tpsword]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  HeadHunter:
+    description: "Gives the player a Head Hunter sword."
+    usage: "/HeadHunter <playername>"
+    aliases: [hh, hsword, hhunter]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  teleportpapercreate:
+    description: Create a teleport paper at your current location
+    usage: "/teleportpapercreate <Location Name>"
+    permission: sc.customitems.teleportpapercreate
+    permission-message: "You do not have permission to use this command!"
+  limitedteleportpapercreate:
+    description: Create a teleport paper at your current location
+    usage: "/teleportpapercreate <Location Name>"
+    permission: sc.customitems.teleportpapercreate
+    permission-message: "You do not have permission to use this command!"
+  harmingstick:
+    description: Create a teleport paper at your current location
+    usage: "/harmingstick <player name>"
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  getaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command>"
+    permission: sc.customitems.give
+  10k:
+    description: "Teleports you to 10k rules"
+    usage: "/10k"
+    permission: sc.customitems.10k
