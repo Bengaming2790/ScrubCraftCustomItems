@@ -29,4 +29,13 @@ public class Keys {
     public static final NamespacedKey TELEPORT_SWORD_KILL_COUNT = new NamespacedKey(Main.getInstance(), "teleport_sword_kill_count");
     public static final NamespacedKey TELEPORT_PAPER_TYPE = new NamespacedKey(Main.getInstance(), "TeleportPaperType");
 	public static final NamespacedKey TELEPORT_PAPER_ITEM = new NamespacedKey(Main.getInstance(), "TeleportPaperItem");
+	
+	public static final NamespacedKey BASIC_SCYTHE = new NamespacedKey(Main.getInstance(), "BasicScythe");
+	public static final NamespacedKey ABYSSAL = new NamespacedKey(Main.getInstance(), "Abyssal");
+	public static final NamespacedKey SMILE_SCYTHE = new NamespacedKey(Main.getInstance(), "SmileScythe");
+	public static final NamespacedKey ICICLE_SCYTHE = new NamespacedKey(Main.getInstance(), "IcicleScythe");
+
+
+
+
 }

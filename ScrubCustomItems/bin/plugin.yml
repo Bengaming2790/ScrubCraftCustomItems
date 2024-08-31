@@ -35,6 +35,30 @@ commands:
     aliases: [hh, hsword, hhunter]
     permission: sc.customitems.give
     permission-message: "You do not have permission to use this command!"
+  Scythe:
+    description: "Gives the player a basic scythe."
+    usage: "/scythe <playername>"
+    aliases: [bs]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  abyssalscythe:
+    description: Gives a player the Abyssal Scythe.
+    usage: /<command> <player name>
+    aliases: [abs]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
+  smilesscythe:
+    description: Gives a player the Smile's Scythe.
+    usage: /<command> <player name>
+    aliases: [ss]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
+  iciclescythe:
+    description: Gives a player the Icicle Scythe.
+    usage: /<command> <player name>
+    aliases: [is]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
   teleportpapercreate:
     description: Create a teleport paper at your current location
     usage: "/teleportpapercreate <Location Name>"
