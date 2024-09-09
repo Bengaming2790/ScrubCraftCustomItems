@@ -32,7 +32,8 @@ public class ServerHeart implements CommandExecutor, Listener {
             return false;
         }
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+        @SuppressWarnings("deprecation")
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (target == null || !target.hasPlayedBefore()) {
             sender.sendMessage(ChatColor.RED + "Player not found.");
             return true;

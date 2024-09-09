@@ -1,12 +1,14 @@
 package main.ca.techgarage.ScrubCustomItems;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import main.ca.techgarage.ScrubCustomItems.Items.BloodDust;
 import main.ca.techgarage.ScrubCustomItems.Items.Edgestone;
 import main.ca.techgarage.ScrubCustomItems.Items.HeadHunter;
+import main.ca.techgarage.ScrubCustomItems.Items.QuestBook;
 import main.ca.techgarage.ScrubCustomItems.Items.Scythe;
 import main.ca.techgarage.ScrubCustomItems.Items.ServerHeart;
 import main.ca.techgarage.ScrubCustomItems.Items.TeleportSword;
@@ -17,12 +19,16 @@ import main.ca.techgarage.ScrubCustomItems.commands.TeleportCommandExecutor;
 import main.ca.techgarage.ScrubCustomItems.commands.TeleportPaperCreate;
 import main.ca.techgarage.ScrubCustomItems.scyths.Abyssal;
 import main.ca.techgarage.ScrubCustomItems.scyths.Icicle;
+import main.ca.techgarage.ScrubCustomItems.scyths.Shulker;
 import main.ca.techgarage.ScrubCustomItems.scyths.Smile;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener{
     private BukkitTask task;
     private PlayerJoinHandler playerJoinHandler;
 
+
+
+    
     @Override
     public void onEnable() {
         registerCommands();
@@ -33,10 +39,15 @@ public class Main extends JavaPlugin {
         this.getCommand("10k").setExecutor(new TeleportCommandExecutor());
         this.getServer().getPluginManager().registerEvents(playerJoinHandler, this);
         this.getCommand("scythe").setExecutor(new Scythe());
+        this.getCommand("headhunter").setExecutor(new HeadHunter());
 
         this.getCommand("abyssalscythe").setExecutor(new Abyssal());
         this.getCommand("smilesscythe").setExecutor(new Smile());
         this.getCommand("iciclescythe").setExecutor(new Icicle());
+        this.getCommand("shulkerscythe").setExecutor(new Shulker());
+        this.getCommand("questbook").setExecutor(new QuestBook());
+
+
     }
           
     @Override
@@ -71,6 +82,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerEvents() {
+        getServer().getPluginManager().registerEvents(new broadcast(), this);
         getServer().getPluginManager().registerEvents(new Edgestone(), this);
         getServer().getPluginManager().registerEvents(new ServerHeart(), this);
         getServer().getPluginManager().registerEvents(new BloodDust(), this);
@@ -78,10 +90,12 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HeadHunter(), this);
         getServer().getPluginManager().registerEvents(new harmingstick(), this);
         getServer().getPluginManager().registerEvents(new TeleportPaperCreate(this), this);
-        
+        getServer().getPluginManager().registerEvents(new QuestBook(), this);
+
         getServer().getPluginManager().registerEvents(new Abyssal(), this);
         getServer().getPluginManager().registerEvents(new Smile(), this);
         getServer().getPluginManager().registerEvents(new Icicle(), this);
+        getServer().getPluginManager().registerEvents(new Shulker(), this);
     }
 
     private void addRecipes() {
@@ -91,6 +105,9 @@ public class Main extends JavaPlugin {
         scythe.addScytheRecipe(this);
         Icicle icicle = new Icicle();
         icicle.addIScytheRecipe(this); 
+        Shulker shulker = new Shulker();
+        shulker.addIScytheRecipe(this); 
+
         // Register new recipes
     }
 

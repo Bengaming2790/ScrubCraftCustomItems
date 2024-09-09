@@ -1,5 +1,5 @@
 name: ScrubCustomItems
-version: 1.2
+version: 1.4
 api-version: 1.21
 author: Regular Ben
 main: main.ca.techgarage.ScrubCustomItems.Main
@@ -59,10 +59,21 @@ commands:
     aliases: [is]
     permission: sc.customitems.give
     permission-message: You do not have permission to use this command.
+  shulkerscythe:
+    description: Gives a player the Shulker Scythe.
+    usage: /<command> <player name>
+    aliases: [shs]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
   teleportpapercreate:
     description: Create a teleport paper at your current location
     usage: "/teleportpapercreate <Location Name>"
     permission: sc.customitems.teleportpapercreate
+    permission-message: "You do not have permission to use this command!"
+  questbook:
+    description: Create a teleport paper at your current location
+    usage: "/questbook <Player Name>"
+    permission: sc.customitems.give
     permission-message: "You do not have permission to use this command!"
   limitedteleportpapercreate:
     description: Create a teleport paper at your current location
@@ -82,3 +93,16 @@ commands:
     description: "Teleports you to 10k rules"
     usage: "/10k"
     permission: sc.customitems.10k
+
+permissions:
+  sc.customitems.give:
+    description: "Allows the player to give custom items"
+    default: op
+  sc.customitems.teleportpapercreate:
+    description: "Allows the player to create teleport paper"
+    default: op
+  sc.customitems.10k:
+    description: "Allows the player to teleport to 10k rules"
+  sc.scythe.attack:
+    description: "Allows the player to use magic scythe powers"
+    default: op

@@ -34,6 +34,10 @@ public class Keys {
 	public static final NamespacedKey ABYSSAL = new NamespacedKey(Main.getInstance(), "Abyssal");
 	public static final NamespacedKey SMILE_SCYTHE = new NamespacedKey(Main.getInstance(), "SmileScythe");
 	public static final NamespacedKey ICICLE_SCYTHE = new NamespacedKey(Main.getInstance(), "IcicleScythe");
+	public static final NamespacedKey SHULKER_SCYTHE = new NamespacedKey(Main.getInstance(), "ShulkerScythe");	
+	public static final NamespacedKey QUEST_BOOK_KEY = new NamespacedKey(Main.getInstance(), "QuestBook");
+
+
 
 
 
