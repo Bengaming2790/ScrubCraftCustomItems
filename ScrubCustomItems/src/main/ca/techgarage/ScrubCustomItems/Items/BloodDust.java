@@ -65,12 +65,14 @@ public class BloodDust implements CommandExecutor, Listener{
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
+        Player player = event.getPlayer();
         if (item != null && item.hasItemMeta()) {
             PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
             NamespacedKey key = Keys.BLOOD_DUST;
             if (container.has(key, PersistentDataType.BOOLEAN)) {
                 // Cancel the event to prevent placing the custom item
                 event.setCancelled(true);
+                player.updateInventory();
             }
         }
     }

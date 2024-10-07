@@ -1,4 +1,5 @@
 package main.ca.techgarage.ScrubCustomItems.auras;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -9,10 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import main.ca.techgarage.ScrubCustomItems.Main;
 
 public class FlameAura implements Listener, CommandExecutor  {
@@ -23,35 +23,37 @@ public class FlameAura implements Listener, CommandExecutor  {
         this.plugin = plugin;
     }
 
-
     // Method to create the aura item
     public ItemStack createAuraItem() {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("&6Flame Aura"); // Change color and name as desired
+            meta.setDisplayName("§6Flame Aura"); // Change color and name as desired
             item.setItemMeta(meta);
         }
         return item;
     }
 
-    // Event handler to start and stop the particle task
+    // Event handler to start and stop the particle task when inventory changes
     @EventHandler
-    public void onInventoryChange(PlayerInventory event) {
-        Player player = ((OfflinePlayer) event).getPlayer();
-        boolean hasAuraItem = false;
+    public void onInventoryChange(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            Player player = (Player) event.getWhoClicked();
+            boolean hasAuraItem = false;
 
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.isSimilar(createAuraItem())) { // Check if item is similar to the aura item
-                hasAuraItem = true;
-                break;
+            // Check if the player has the aura item in their inventory
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (item != null && item.isSimilar(createAuraItem())) {
+                    hasAuraItem = true;
+                    break;
+                }
             }
-        }
 
-        if (hasAuraItem) {
-            startParticleTask(player);
-        } else {
-            stopParticleTask(player);
+            if (hasAuraItem) {
+                startParticleTask(player);
+            } else {
+                stopParticleTask(player);
+            }
         }
     }
 
@@ -59,14 +61,28 @@ public class FlameAura implements Listener, CommandExecutor  {
     private void startParticleTask(Player player) {
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             if (player.isOnline() && hasAuraItem(player)) {
-                player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 10); // Adjust particle type and count as needed
+                // Center of the circle (player's location)
+                double centerX = player.getLocation().getX();
+                double centerY = player.getLocation().getY() + 1; // Adjust for player height
+                double centerZ = player.getLocation().getZ();
+                
+                // Radius of the circle
+                double radius = 1.5; // Adjust radius as needed
+
+                // Spawn particles in a circular pattern
+                for (int i = 0; i < 360; i += 20) { // Change step size for more/less particles
+                    double angle = i * Math.PI / 180;
+                    double x = centerX + (radius * Math.cos(angle));
+                    double z = centerZ + (radius * Math.sin(angle));
+                    player.getWorld().spawnParticle(Particle.FLAME, x, centerY, z, 0); // Adjust particle count if needed
+                }
             }
         }, 0L, 20L); // Runs every second
     }
 
-    // Method to stop the particle effect task
+    // Method to stop the particle effect task (if needed)
     private void stopParticleTask(Player player) {
-        // Implementation to stop the task if needed
+        // No task stopping logic needed in this case, but can be implemented if necessary
     }
 
     // Check if player has the aura item
@@ -86,7 +102,7 @@ public class FlameAura implements Listener, CommandExecutor  {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage("You have been given an Aura item!");
+                player.sendMessage("You have been given a Flame Aura item!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");

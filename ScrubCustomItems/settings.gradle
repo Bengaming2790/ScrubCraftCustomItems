@@ -9,19 +9,5 @@ plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
-repositories {
-    // ...
-    maven {
-        name = 'minecraft-repo'
-        url = 'https://libraries.minecraft.net/'
-        // this lets gradle know where to look for authlib
-    }
-}
-
-dependencies {
-    // ...
-    compile 'com.mojang:authlib:1.5.21'
-    // this adds the library to the project and the jar when you compile your project
-}
 rootProject.name = 'ScrubCustomItems'
 include('app')

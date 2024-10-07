@@ -96,11 +96,13 @@ public class ServerHeart implements CommandExecutor, Listener {
     // Event handler to prevent placing the Server Heart
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
         ItemStack item = event.getItemInHand();
         if (item != null && item.getType() == Material.PLAYER_HEAD) {
             ItemMeta meta = item.getItemMeta();
             if (meta != null && meta.getPersistentDataContainer().has(Keys.SERVER_HEART, PersistentDataType.BOOLEAN)) {
                 event.setCancelled(true);
+                player.updateInventory();
             }
         }
     }

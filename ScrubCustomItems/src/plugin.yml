@@ -1,10 +1,10 @@
 name: ScrubCustomItems
-version: 1.4
+version: 1.6
 api-version: 1.21
 author: Regular Ben
 main: main.ca.techgarage.ScrubCustomItems.Main
 description: Created to serve Custom Items to the ScrubCraft server. Join the server @ scrubcraft.ca.
-
+depend: [WorldGuard, WorldEdit]
 commands:
   edgestone:
     description: "Gives the Player Edgestone"
@@ -35,6 +35,18 @@ commands:
     aliases: [hh, hsword, hhunter]
     permission: sc.customitems.give
     permission-message: "You do not have permission to use this command!"
+  FreezeClock:
+    description: "Gives the player a Head Hunter sword."
+    usage: "/FreezeClock <playername>"
+    aliases: [fc]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
+  FlameCharge:
+    description: "Gives the player a Head Hunter sword."
+    usage: "/FlameCharge <playername>"
+    aliases: [flc]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
   Scythe:
     description: "Gives the player a basic scythe."
     usage: "/scythe <playername>"
@@ -51,6 +63,12 @@ commands:
     description: Gives a player the Smile's Scythe.
     usage: /<command> <player name>
     aliases: [ss]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
+  breezescythe:
+    description: Gives a player the Breeze Scythe.
+    usage: /<command> <player name>
+    aliases: [brs]
     permission: sc.customitems.give
     permission-message: You do not have permission to use this command.
   iciclescythe:
@@ -89,10 +107,21 @@ commands:
     description: "Gives the player an Aura item."
     usage: "/<command>"
     permission: sc.customitems.give
+  flameaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
   10k:
     description: "Teleports you to 10k rules"
     usage: "/10k"
     permission: sc.customitems.10k
+  backpack:
+    description: "Gives a backpack to the player selected"
+    usage: "/<command> <player> <Amount>"
+    permission: sc.customitems.give
+  claimlamp:
+     description: "Gives the player a Cliam Lamp"
+     usage: "/<command> <player> <amount>"
 
 permissions:
   sc.customitems.give:
@@ -106,3 +135,9 @@ permissions:
   sc.scythe.attack:
     description: "Allows the player to use magic scythe powers"
     default: op
+  sc.magic:
+    description: "Allows the player to use magic"
+    default: op
+  sc.drops:
+     description: "Gives the players the ability to get drops"
+     default: op

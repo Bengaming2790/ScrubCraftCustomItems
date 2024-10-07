@@ -14,6 +14,7 @@ public class Keys {
 
 
     public static final NamespacedKey BLOOD_DUST = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "blooddust");
+    public static final NamespacedKey FLAME_CHARGE = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "flamecharge");
     public static final NamespacedKey HARMING_STICK = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "harmingstick");
 
     public static final NamespacedKey HEAD_HUNTER_SWORD = new NamespacedKey(Main.getInstance(), "HeadHunterSword");
@@ -31,15 +32,16 @@ public class Keys {
 	public static final NamespacedKey TELEPORT_PAPER_ITEM = new NamespacedKey(Main.getInstance(), "TeleportPaperItem");
 	
 	public static final NamespacedKey BASIC_SCYTHE = new NamespacedKey(Main.getInstance(), "BasicScythe");
+	public static final NamespacedKey BREEZE_SCYTHE = new NamespacedKey(Main.getInstance(), "BreezeScythe");
 	public static final NamespacedKey ABYSSAL = new NamespacedKey(Main.getInstance(), "Abyssal");
 	public static final NamespacedKey SMILE_SCYTHE = new NamespacedKey(Main.getInstance(), "SmileScythe");
 	public static final NamespacedKey ICICLE_SCYTHE = new NamespacedKey(Main.getInstance(), "IcicleScythe");
 	public static final NamespacedKey SHULKER_SCYTHE = new NamespacedKey(Main.getInstance(), "ShulkerScythe");	
 	public static final NamespacedKey QUEST_BOOK_KEY = new NamespacedKey(Main.getInstance(), "QuestBook");
+	public static final NamespacedKey FREEZE_CLOCK = new NamespacedKey(Main.getInstance(), "FreezeClock");
+	public static final NamespacedKey BACK_PACK_ID = new NamespacedKey(Main.getInstance(), "BackPack");
 
 
-
-
-
+	public static final NamespacedKey CLAIM_LAMP = new NamespacedKey(Main.getInstance(), "ClaimLamp");
 
 }
