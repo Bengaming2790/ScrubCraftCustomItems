@@ -40,7 +40,7 @@ public class LimitedTeleportPaperCreate implements CommandExecutor, Listener {
 
             Player player = (Player) sender;
 
-            if (!player.hasPermission("sc.customitems.limitedteleportpapercreate")) {
+            if (!player.hasPermission("sc.customitems.teleportpapercreate")) {
                 player.sendMessage(ChatColor.RED + "You do not have permission to execute this command.");
                 return true;
             }
@@ -61,19 +61,87 @@ public class LimitedTeleportPaperCreate implements CommandExecutor, Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        // No handling for teleportation, as per your requirements.
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+
+        if (item != null && item.getType() == Material.PAPER && item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+
+            // Check if the paper is a teleport paper
+            if (container.has(Keys.LIMITED_TELEPORT_PAPER, PersistentDataType.STRING)) {
+                handleTeleport(player, container, item, pendingSwordTeleports);
+            }
+        }   
     }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
-        // No handling for teleportation cancellation, as per your requirements.
-    }
+        Player player = event.getPlayer();
+        ItemStack item = event.getItemDrop().getItemStack();
+
+        if (item != null && item.getType() == Material.PAPER && item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+
+            // Check if the paper is a teleport paper
+            if (container.has(Keys.TELEPORT_PAPER_SWORD, PersistentDataType.STRING)) {
+                cancelTeleport(player, pendingSwordTeleports);
+            }
+        }    }
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
-        // No handling for teleportation cancellation, as per your requirements.
+        Player player = (Player) event.getPlayer();
+        cancelTeleport(player, pendingSwordTeleports);
     }
 
+ private void handleTeleport(Player player, PersistentDataContainer container, ItemStack item, Map<UUID, BukkitRunnable> pendingTeleports) {
+        cancelTeleport(player, pendingTeleports);
+
+        String locationString = container.get(Keys.LIMITED_TELEPORT_PAPER, PersistentDataType.STRING);
+        String[] parts = locationString.split(",");
+        if (parts.length == 4) {
+            try {
+                String worldName = parts[0];
+                double x = Double.parseDouble(parts[1]);
+                double y = Double.parseDouble(parts[2]);
+                double z = Double.parseDouble(parts[3]);
+
+                Location teleportLocation = new Location(plugin.getServer().getWorld(worldName), x, y, z);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 160, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 160, 1));
+
+                BukkitRunnable teleportTask = new BukkitRunnable() {
+                    public void run() {
+                        // Teleport the player
+                        player.teleport(teleportLocation);
+                        player.removePotionEffect(PotionEffectType.NAUSEA);
+                        player.removePotionEffect(PotionEffectType.DARKNESS);
+
+                        // Remove one teleport paper from the player's hand
+                        if (item != null && item.getType() == Material.PAPER && hasEnchantment(item, Enchantment.SWIFT_SNEAK, 9)) {
+                            item.setAmount(item.getAmount() - 1);
+                        }
+
+                        // Play the teleport sound
+                        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+
+                        // Remove the player from the pending teleports map
+                        pendingTeleports.remove(player.getUniqueId());
+                    }
+                };
+
+                // Add the teleport task to the pending teleports map
+                pendingTeleports.put(player.getUniqueId(), teleportTask);
+                teleportTask.runTaskLater(plugin, 100L);
+            } catch (NumberFormatException e) {
+                player.sendMessage(ChatColor.RED + "Invalid teleport location.");
+            }
+        }
+    }
+
+    
     private ItemStack createLimitedTeleportPaper(String worldName, double x, double y, double z, float pitch, float yaw, String displayName, String locationName) {
         ItemStack tppaper = new ItemStack(Material.PAPER);
         ItemMeta meta = tppaper.getItemMeta();
@@ -83,12 +151,10 @@ public class LimitedTeleportPaperCreate implements CommandExecutor, Listener {
             meta.setLore(Arrays.asList(
                 ChatColor.DARK_PURPLE + "Limited Use Teleport Paper",
                 ChatColor.GRAY + "Right-click to teleport to " + locationName));
-            meta.addEnchant(Enchantment.SWIFT_SNEAK, 10, true);
+            meta.addEnchant(Enchantment.SWIFT_SNEAK, 9, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            container.set(new NamespacedKey(plugin, "TELEPORT_PAPER"), PersistentDataType.STRING, String.join(",", worldName, Double.toString(x), Double.toString(y), Double.toString(z), Float.toString(pitch), Float.toString(yaw)));
-            container.set(new NamespacedKey(plugin, "TELEPORT_PAPER_SWORD"), PersistentDataType.STRING, "true"); // Added this key
-            container.set(new NamespacedKey(plugin, "LIMITED_TELEPORT_PAPER"), PersistentDataType.BYTE, (byte) 1);
+            container.set(new NamespacedKey(plugin, "LIMITED_TELEPORT_PAPER"), PersistentDataType.STRING, String.join(",", worldName, Double.toString(x), Double.toString(y), Double.toString(z), Float.toString(pitch), Float.toString(yaw)));
             tppaper.setItemMeta(meta);
         }
 
