@@ -25,13 +25,13 @@ public class FlameAura implements Listener, CommandExecutor  {
 
     // Method to create the aura item
     public ItemStack createAuraItem() {
-        ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
+        ItemStack flame = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("ง6Flame Aura"); // Change color and name as desired
+            meta.setDisplayName("ยง6Flame Aura"); // Change color and name as desired
             item.setItemMeta(meta);
         }
-        return item;
+        return flame;
     }
 
     // Event handler to start and stop the particle task when inventory changes
