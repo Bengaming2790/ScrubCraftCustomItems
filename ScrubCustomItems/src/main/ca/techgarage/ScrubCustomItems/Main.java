@@ -51,6 +51,7 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("headhunter").setExecutor(new HeadHunter());
         this.getCommand("freezeclock").setExecutor(new FreezeClock());
         this.getCommand("flameaura").setExecutor(new FlameAura(this));
+        this.getCommand("getaura").setExecutor(new FlameAura(this));
 
         this.getCommand("abyssalscythe").setExecutor(new Abyssal());
         this.getCommand("smilesscythe").setExecutor(new Smile());
