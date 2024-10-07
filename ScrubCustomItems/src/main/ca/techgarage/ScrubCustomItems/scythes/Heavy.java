@@ -30,8 +30,8 @@ import main.ca.techgarage.ScrubCustomItems.Main;
 public class Heavy implements CommandExecutor, Listener {
     
     public ItemStack createScythe() {
-        ItemStack icicle = new ItemStack(Material.NETHERITE_SWORD);
-        ItemMeta meta = icicle.getItemMeta();
+        ItemStack heavy = new ItemStack(Material.NETHERITE_SWORD);
+        ItemMeta meta = heavy.getItemMeta();
 
         if (meta != null) {
             meta.setDisplayName(ChatColor.DARK_PURPLE + "Heavy Core Infused Scythe");
@@ -43,10 +43,10 @@ public class Heavy implements CommandExecutor, Listener {
                 new AttributeModifier(UUID.randomUUID(), "player.entity_interaction_range", 0.5, AttributeModifier.Operation.ADD_NUMBER));
             meta.getPersistentDataContainer().set(Keys.ICICLE_SCYTHE, PersistentDataType.BOOLEAN, true);
 
-            icicle.setItemMeta(meta);
+            heavy.setItemMeta(meta);
         }
         
-        return icicle;
+        return heavy;
     }
 
     public void addHScytheRecipe(Main plugin) {
@@ -77,8 +77,8 @@ public class Heavy implements CommandExecutor, Listener {
             return true;
         }
 
-        ItemStack icicle = createScythe();
-        target.getInventory().addItem(icicle);
+        ItemStack heavy = createScythe();
+        target.getInventory().addItem(heavy);
         sender.sendMessage(ChatColor.GREEN + "Gave the Heavy Core Infused Scythe to " + target.getName());
         target.sendMessage(ChatColor.GREEN + "You have received the Heavy Core Infused Scythe.");
 
