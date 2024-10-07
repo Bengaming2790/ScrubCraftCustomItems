@@ -38,6 +38,9 @@ public class Keys {
 	public static final NamespacedKey ICICLE_SCYTHE = new NamespacedKey(Main.getInstance(), "IcicleScythe");
 	public static final NamespacedKey SHULKER_SCYTHE = new NamespacedKey(Main.getInstance(), "ShulkerScythe");	
 	public static final NamespacedKey QUEST_BOOK_KEY = new NamespacedKey(Main.getInstance(), "QuestBook");
+	public static final NamespacedKey HEAVY_SCYTHE = new NamespacedKey(Main.getInstance(), "HeavyScythe");
+
+	
 	public static final NamespacedKey FREEZE_CLOCK = new NamespacedKey(Main.getInstance(), "FreezeClock");
 	public static final NamespacedKey BACK_PACK_ID = new NamespacedKey(Main.getInstance(), "BackPack");
 

@@ -141,3 +141,6 @@ permissions:
   sc.drops:
      description: "Gives the players the ability to get drops"
      default: op
+  sc.teleportsword:
+     description: "Gives the players the ability to use the Teleport Sword"
+     default: op

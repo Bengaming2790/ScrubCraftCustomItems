@@ -117,7 +117,7 @@ public class TeleportSword implements CommandExecutor, Listener {
                     ItemStack itemInHand = killer.getInventory().getItemInMainHand();
 
                     // Check if the player is holding the teleport sword
-                    if (isTeleportSword(itemInHand)) {
+                    if (isTeleportSword(itemInHand) && killer.hasPermission("sc.teleportsword")) {
                         // Update the kill count
                         ItemMeta meta = itemInHand.getItemMeta();
                         PersistentDataContainer container = meta.getPersistentDataContainer();
