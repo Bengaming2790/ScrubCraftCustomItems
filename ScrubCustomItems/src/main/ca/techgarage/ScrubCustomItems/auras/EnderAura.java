@@ -91,7 +91,7 @@ public class EnderAura implements Listener, CommandExecutor  {
                     player.getWorld().spawnParticle(Particle.END_ROD, x, centerY, z, 0); // Adjust particle count if needed
                 }
             }
-        }, 0L, 20L); // Runs every second
+        }, 0L, 1L); // Runs every tick
     }
 
     // Method to stop the particle effect task (if needed)
