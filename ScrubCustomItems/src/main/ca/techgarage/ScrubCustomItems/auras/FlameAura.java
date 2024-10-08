@@ -124,7 +124,7 @@ public class FlameAura implements Listener, CommandExecutor  {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage("You have been given a Flame Aura item!");
+                player.sendMessage(ChatColor.GREEN + "You have been given a Flame Aura!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");
