@@ -1,3 +1,4 @@
+
 package main.ca.techgarage.ScrubCustomItems.scythes;
 
 import java.util.UUID;
@@ -11,12 +12,11 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,7 +31,7 @@ public class Swift implements CommandExecutor, Listener {
     
     public ItemStack createScythe() {
         ItemStack swift = new ItemStack(Material.NETHERITE_SWORD);
-        ItemMeta meta = icicle.getItemMeta();
+        ItemMeta meta = swift.getItemMeta();
 
         if (meta != null) {
             meta.setDisplayName(ChatColor.AQUA + "Swift Scythe");
@@ -63,6 +63,42 @@ public class Swift implements CommandExecutor, Listener {
 
         Bukkit.addRecipe(recipe);
     }
+
+    // Prevent the Swift Scythe from being used in an anvil
+    @EventHandler
+    public void onPrepareAnvil(PrepareAnvilEvent event) {
+        ItemStack result = event.getResult();
+        if (result != null && result.hasItemMeta()) {
+            ItemMeta meta = result.getItemMeta();
+            if (meta != null && meta.getPersistentDataContainer().has(Keys.SWIFT_SCYTHE, PersistentDataType.BOOLEAN)) {
+                event.setResult(null); // Prevent any result from appearing in the anvil
+            }
+        }
+    }
+
+    // Add speed effect when the Swift Scythe is in the player's main hand
+    @EventHandler
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+        ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
+        
+        if (newItem != null && newItem.hasItemMeta()) {
+            ItemMeta meta = newItem.getItemMeta();
+            if (meta != null && meta.getPersistentDataContainer().has(Keys.SWIFT_SCYTHE, PersistentDataType.BOOLEAN)) {
+                // Add speed effect
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true, false, false));
+            }
+        }
+        
+        // Remove the effect if the player is no longer holding the scythe
+        ItemStack oldItem = player.getInventory().getItem(event.getPreviousSlot());
+        if (oldItem != null && oldItem.hasItemMeta()) {
+            ItemMeta oldMeta = oldItem.getItemMeta();
+            if (oldMeta != null && oldMeta.getPersistentDataContainer().has(Keys.SWIFT_SCYTHE, PersistentDataType.BOOLEAN)) {
+                player.removePotionEffect(PotionEffectType.SPEED);
+            }
+        }
+    }
    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -83,8 +119,4 @@ public class Swift implements CommandExecutor, Listener {
         target.sendMessage(ChatColor.GREEN + "You have received the Swift Scythe.");
         return true;
     }
-
-  // Add speed to the player when item is in their MAIN HAND
-
-
 }
