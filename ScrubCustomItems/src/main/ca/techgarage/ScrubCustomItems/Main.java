@@ -53,6 +53,7 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("headhunter").setExecutor(new HeadHunter());
         this.getCommand("freezeclock").setExecutor(new FreezeClock());
         this.getCommand("flameaura").setExecutor(new FlameAura(this));
+        this.getCommand("bubbleaura").setExecutor(new BubbleAura(this));
         this.getCommand("getaura").setExecutor(new FlameAura(this));
         this.getCommand("heavyscythe").setExecutor(new Heavy());
 
@@ -127,6 +128,7 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new Icicle(), this);
         getServer().getPluginManager().registerEvents(new Shulker(), this);
         getServer().getPluginManager().registerEvents(new EnderAura(this), this);
+        getServer().getPluginManager().registerEvents(new BubbleAura(this), this);
 
     }
 
