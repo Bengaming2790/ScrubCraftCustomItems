@@ -121,6 +121,10 @@ commands:
     description: "Gives the player an Aura item."
     usage: "/<command> <PlayerName>"
     permission: sc.customitems.give
+  bubbleaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
   10k:
     description: "Teleports you to 10k rules"
     usage: "/10k"
