@@ -41,7 +41,7 @@ public class BubbleAura implements Listener, CommandExecutor  {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.DARK_PURPLE +"End Rod Aura"); // Change color and name as desired
+            meta.setDisplayName(ChatColor.BLUE +"Bubble Aura"); // Change color and name as desired
             meta.getPersistentDataContainer().set(Keys.BUBBLE_ARUA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
             item.setItemMeta(meta);
         }
