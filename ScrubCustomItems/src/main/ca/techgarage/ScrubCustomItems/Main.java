@@ -19,6 +19,7 @@ import main.ca.techgarage.ScrubCustomItems.Items.flameCharge;
 import main.ca.techgarage.ScrubCustomItems.Items.harmingstick;
 import main.ca.techgarage.ScrubCustomItems.auras.EnderAura;
 import main.ca.techgarage.ScrubCustomItems.auras.FlameAura;
+import main.ca.techgarage.ScrubCustomItems.auras.BubbleAura;
 import main.ca.techgarage.ScrubCustomItems.commands.LimitedTeleportPaperCreate;
 import main.ca.techgarage.ScrubCustomItems.commands.PlayerJoinHandler;
 import main.ca.techgarage.ScrubCustomItems.commands.TeleportCommandExecutor;
@@ -29,6 +30,7 @@ import main.ca.techgarage.ScrubCustomItems.scythes.Heavy;
 import main.ca.techgarage.ScrubCustomItems.scythes.Icicle;
 import main.ca.techgarage.ScrubCustomItems.scythes.Shulker;
 import main.ca.techgarage.ScrubCustomItems.scythes.Smile;
+import main.ca.techgarage.ScrubCustomItems.scythes.Swift;
 
 public class Main extends JavaPlugin implements Listener{
     private BukkitTask task;
@@ -56,6 +58,7 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("bubbleaura").setExecutor(new BubbleAura(this));
         this.getCommand("getaura").setExecutor(new FlameAura(this));
         this.getCommand("heavyscythe").setExecutor(new Heavy());
+        this.getCommand("swiftscythe").setExecutor(new Swift());
 
         this.getCommand("abyssalscythe").setExecutor(new Abyssal());
         this.getCommand("smilesscythe").setExecutor(new Smile());
@@ -121,6 +124,7 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new Breeze(), this);
         getServer().getPluginManager().registerEvents(new BackPacks(), this);
         getServer().getPluginManager().registerEvents(new ClaimLamp(), this);
+        getServer().getPluginManager().registerEvents(new Swift(), this);
 
         getServer().getPluginManager().registerEvents(new Heavy(), this);
         getServer().getPluginManager().registerEvents(new Abyssal(), this);
@@ -145,6 +149,9 @@ public class Main extends JavaPlugin implements Listener{
         breeze.addIScytheRecipe(this);
         Heavy heavy = new Heavy();
         heavy.addHScytheRecipe(this);
+        Swift swift = new Swift();
+        swift.addHScytheRecipe(this);
+
 
 
         // Register new recipes
