@@ -40,7 +40,7 @@ public class FlameAura implements Listener, CommandExecutor  {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("ง6Flame Aura"); // Change color and name as desired
+            meta.setDisplayName("ยง6Flame Aura"); // Change color and name as desired
             meta.getPersistentDataContainer().set(Keys.FLAME_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
             item.setItemMeta(meta);
         }
@@ -90,7 +90,7 @@ public class FlameAura implements Listener, CommandExecutor  {
                     player.getWorld().spawnParticle(Particle.FLAME, x, centerY, z, 0); // Adjust particle count if needed
                 }
             }
-        }, 0L, 20L); // Runs every second
+        }, 0L, 1L); // Runs every tick
     }
 
     // Method to stop the particle effect task (if needed)
