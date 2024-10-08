@@ -125,7 +125,7 @@ public class EnderAura implements Listener, CommandExecutor  {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage("You have been given an End Rod Aura!");
+                player.sendMessage(ChatColor.GREEN + "You have been given an End Rod Aura!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");
