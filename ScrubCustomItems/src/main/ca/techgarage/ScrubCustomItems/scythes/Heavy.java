@@ -40,7 +40,7 @@ public class Heavy implements CommandExecutor, Listener {
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, 
                 new AttributeModifier(UUID.randomUUID(), "generic.attack_damage", 5, AttributeModifier.Operation.ADD_NUMBER));
             meta.addAttributeModifier(Attribute.PLAYER_ENTITY_INTERACTION_RANGE, 
-                new AttributeModifier(UUID.randomUUID(), "player.entity_interaction_range", 0.5, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier(UUID.randomUUID(), "player.entity_interaction_range", 1, AttributeModifier.Operation.ADD_NUMBER));
             meta.getPersistentDataContainer().set(Keys.ICICLE_SCYTHE, PersistentDataType.BOOLEAN, true);
 
             heavy.setItemMeta(meta);
@@ -52,17 +52,23 @@ public class Heavy implements CommandExecutor, Listener {
     public void addHScytheRecipe(Main plugin) {
         ItemStack scythe = createScythe();
 
-        // Changed the key to be unique
+        // Unique key for the recipe
         NamespacedKey key = new NamespacedKey(plugin, "heavy_scythe");
         ShapedRecipe recipe = new ShapedRecipe(key, scythe);
+        
+        // Recipe shape, corrected to use 'H'
         recipe.shape("HHH", "ISB", "ISI");
-        recipe.setIngredient('N', Material.HEAVY_CORE);
+
+        // Assign the correct ingredients to the shape characters
+        recipe.setIngredient('H', Material.HEAVY_CORE);  // Heavy Core should use 'H'
         recipe.setIngredient('S', Material.STICK);
         recipe.setIngredient('B', Material.BEDROCK);
         recipe.setIngredient('I', Material.NETHERITE_INGOT);
 
+        // Add the recipe to the server
         Bukkit.addRecipe(recipe);
     }
+
    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

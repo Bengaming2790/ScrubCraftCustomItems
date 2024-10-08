@@ -18,12 +18,13 @@ import org.bukkit.persistence.PersistentDataType;
 
 import main.ca.techgarage.ScrubCustomItems.Keys;
 import main.ca.techgarage.ScrubCustomItems.Main;
+import net.md_5.bungee.api.ChatColor;
 
-public class FlameAura implements Listener, CommandExecutor  {
+public class EnderAura implements Listener, CommandExecutor  {
 
     private final Main plugin;
 
-    public FlameAura(Main plugin) {
+    public EnderAura(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -40,8 +41,8 @@ public class FlameAura implements Listener, CommandExecutor  {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("§6Flame Aura"); // Change color and name as desired
-            meta.getPersistentDataContainer().set(Keys.FLAME_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
+            meta.setDisplayName(ChatColor.DARK_PURPLE +"End Rod Aura"); // Change color and name as desired
+            meta.getPersistentDataContainer().set(Keys.ENDER_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
             item.setItemMeta(meta);
         }
         return item;
@@ -87,7 +88,7 @@ public class FlameAura implements Listener, CommandExecutor  {
                     double angle = i * Math.PI / 180;
                     double x = centerX + (radius * Math.cos(angle));
                     double z = centerZ + (radius * Math.sin(angle));
-                    player.getWorld().spawnParticle(Particle.FLAME, x, centerY, z, 0); // Adjust particle count if needed
+                    player.getWorld().spawnParticle(Particle.END_ROD, x, centerY, z, 0); // Adjust particle count if needed
                 }
             }
         }, 0L, 20L); // Runs every second
@@ -102,7 +103,7 @@ public class FlameAura implements Listener, CommandExecutor  {
     private boolean hasAuraKey(ItemStack item) {
         if (item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
-            return meta.getPersistentDataContainer().has(Keys.FLAME_AURA, PersistentDataType.BOOLEAN);
+            return meta.getPersistentDataContainer().has(Keys.ENDER_AURA, PersistentDataType.BOOLEAN);
         }
         return false;
     }
@@ -119,12 +120,12 @@ public class FlameAura implements Listener, CommandExecutor  {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("flameaura")) {
+        if (command.getName().equalsIgnoreCase("endrodaura")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage("You have been given a Flame Aura item!");
+                player.sendMessage("You have been given an End Rod Aura!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");

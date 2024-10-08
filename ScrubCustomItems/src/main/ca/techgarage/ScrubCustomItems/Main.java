@@ -17,6 +17,7 @@ import main.ca.techgarage.ScrubCustomItems.Items.ServerHeart;
 import main.ca.techgarage.ScrubCustomItems.Items.TeleportSword;
 import main.ca.techgarage.ScrubCustomItems.Items.flameCharge;
 import main.ca.techgarage.ScrubCustomItems.Items.harmingstick;
+import main.ca.techgarage.ScrubCustomItems.auras.EnderAura;
 import main.ca.techgarage.ScrubCustomItems.auras.FlameAura;
 import main.ca.techgarage.ScrubCustomItems.commands.LimitedTeleportPaperCreate;
 import main.ca.techgarage.ScrubCustomItems.commands.PlayerJoinHandler;
@@ -24,6 +25,7 @@ import main.ca.techgarage.ScrubCustomItems.commands.TeleportCommandExecutor;
 import main.ca.techgarage.ScrubCustomItems.commands.TeleportPaperCreate;
 import main.ca.techgarage.ScrubCustomItems.scythes.Abyssal;
 import main.ca.techgarage.ScrubCustomItems.scythes.Breeze;
+import main.ca.techgarage.ScrubCustomItems.scythes.Heavy;
 import main.ca.techgarage.ScrubCustomItems.scythes.Icicle;
 import main.ca.techgarage.ScrubCustomItems.scythes.Shulker;
 import main.ca.techgarage.ScrubCustomItems.scythes.Smile;
@@ -52,6 +54,7 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("freezeclock").setExecutor(new FreezeClock());
         this.getCommand("flameaura").setExecutor(new FlameAura(this));
         this.getCommand("getaura").setExecutor(new FlameAura(this));
+        this.getCommand("heavyscythe").setExecutor(new Heavy());
 
         this.getCommand("abyssalscythe").setExecutor(new Abyssal());
         this.getCommand("smilesscythe").setExecutor(new Smile());
@@ -62,7 +65,8 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("breezescythe").setExecutor(new Breeze());
         this.getCommand("backpack").setExecutor(new BackPacks());
         this.getCommand("claimlamp").setExecutor(new ClaimLamp());
-       
+        this.getCommand("endrodaura").setExecutor(new EnderAura(this));
+
         
         
         getLogger().info("Scrub Custom Items has been enabled and drops are running.");
@@ -109,19 +113,21 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new HeadHunter(), this);
         getServer().getPluginManager().registerEvents(new harmingstick(), this);
         getServer().getPluginManager().registerEvents(new TeleportPaperCreate(this), this);
+        getServer().getPluginManager().registerEvents(new LimitedTeleportPaperCreate(this), this);
+
         getServer().getPluginManager().registerEvents(new QuestBook(), this);
         getServer().getPluginManager().registerEvents(new FreezeClock(), this);
         getServer().getPluginManager().registerEvents(new Breeze(), this);
         getServer().getPluginManager().registerEvents(new BackPacks(), this);
         getServer().getPluginManager().registerEvents(new ClaimLamp(), this);
 
-
-
-
+        getServer().getPluginManager().registerEvents(new Heavy(), this);
         getServer().getPluginManager().registerEvents(new Abyssal(), this);
         getServer().getPluginManager().registerEvents(new Smile(), this);
         getServer().getPluginManager().registerEvents(new Icicle(), this);
         getServer().getPluginManager().registerEvents(new Shulker(), this);
+        getServer().getPluginManager().registerEvents(new EnderAura(this), this);
+
     }
 
     private void addRecipes() {
@@ -135,6 +141,8 @@ public class Main extends JavaPlugin implements Listener{
         shulker.addIScytheRecipe(this); 
         Breeze breeze = new Breeze();
         breeze.addIScytheRecipe(this);
+        Heavy heavy = new Heavy();
+        heavy.addHScytheRecipe(this);
 
 
         // Register new recipes

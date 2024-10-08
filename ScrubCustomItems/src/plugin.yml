@@ -83,6 +83,12 @@ commands:
     aliases: [shs]
     permission: sc.customitems.give
     permission-message: You do not have permission to use this command.
+  heavyscythe:
+    description: Gives a player the Heavy Scythe.
+    usage: /<command> <player name>
+    aliases: [shs]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
   teleportpapercreate:
     description: Create a teleport paper at your current location
     usage: "/teleportpapercreate <Location Name>"
@@ -111,6 +117,10 @@ commands:
     description: "Gives the player an Aura item."
     usage: "/<command> <PlayerName>"
     permission: sc.customitems.give
+  endrodaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
   10k:
     description: "Teleports you to 10k rules"
     usage: "/10k"
@@ -122,6 +132,7 @@ commands:
   claimlamp:
      description: "Gives the player a Cliam Lamp"
      usage: "/<command> <player> <amount>"
+     
 
 permissions:
   sc.customitems.give:

@@ -44,6 +44,9 @@ public class Keys {
 	public static final NamespacedKey FREEZE_CLOCK = new NamespacedKey(Main.getInstance(), "FreezeClock");
 	public static final NamespacedKey BACK_PACK_ID = new NamespacedKey(Main.getInstance(), "BackPack");
 
+	public static final NamespacedKey FLAME_AURA = new NamespacedKey(Main.getInstance(), "flameaura");
+	public static final NamespacedKey ENDER_AURA = new NamespacedKey(Main.getInstance(), "enderaura");
+
 
 	public static final NamespacedKey CLAIM_LAMP = new NamespacedKey(Main.getInstance(), "ClaimLamp");
 
