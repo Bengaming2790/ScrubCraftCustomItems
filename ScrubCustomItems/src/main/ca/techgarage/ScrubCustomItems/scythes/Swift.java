@@ -65,16 +65,6 @@ public class Swift implements CommandExecutor, Listener {
     }
 
     // Prevent the Swift Scythe from being used in an anvil
-    @EventHandler
-    public void onPrepareAnvil(PrepareAnvilEvent event) {
-        ItemStack result = event.getResult();
-        if (result != null && result.hasItemMeta()) {
-            ItemMeta meta = result.getItemMeta();
-            if (meta != null && meta.getPersistentDataContainer().has(Keys.SWIFT_SCYTHE, PersistentDataType.BOOLEAN)) {
-                event.setResult(null); // Prevent any result from appearing in the anvil
-            }
-        }
-    }
 
     // Add speed effect when the Swift Scythe is in the player's main hand
     @EventHandler

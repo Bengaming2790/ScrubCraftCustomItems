@@ -24,7 +24,7 @@ public class BubbleAura implements Listener, CommandExecutor  {
 
     private final Main plugin;
 
-    public EnderAura(Main plugin) {
+    public BubbleAura(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -42,7 +42,7 @@ public class BubbleAura implements Listener, CommandExecutor  {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.BLUE +"Bubble Aura"); // Change color and name as desired
-            meta.getPersistentDataContainer().set(Keys.BUBBLE_ARUA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
+            meta.getPersistentDataContainer().set(Keys.BUBBLE_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
             item.setItemMeta(meta);
         }
         return item;
@@ -103,7 +103,7 @@ public class BubbleAura implements Listener, CommandExecutor  {
     private boolean hasAuraKey(ItemStack item) {
         if (item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
-            return meta.getPersistentDataContainer().has(Keys.BUBBLE_ARUA, PersistentDataType.BOOLEAN);
+            return meta.getPersistentDataContainer().has(Keys.BUBBLE_AURA, PersistentDataType.BOOLEAN);
         }
         return false;
     }
@@ -125,7 +125,7 @@ public class BubbleAura implements Listener, CommandExecutor  {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage(ChatColor.GREEN + "You have been given an End Rod Aura!");
+                player.sendMessage(ChatColor.GREEN + "You have been given a Bubble Aura!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");

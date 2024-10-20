@@ -1,6 +1,12 @@
 package main.ca.techgarage.ScrubCustomItems;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -19,6 +25,9 @@ import main.ca.techgarage.ScrubCustomItems.Items.flameCharge;
 import main.ca.techgarage.ScrubCustomItems.Items.harmingstick;
 import main.ca.techgarage.ScrubCustomItems.auras.EnderAura;
 import main.ca.techgarage.ScrubCustomItems.auras.FlameAura;
+import main.ca.techgarage.ScrubCustomItems.auras.HeartAura;
+import main.ca.techgarage.ScrubCustomItems.auras.SpitAura;
+import main.ca.techgarage.ScrubCustomItems.auras.AshAura;
 import main.ca.techgarage.ScrubCustomItems.auras.BubbleAura;
 import main.ca.techgarage.ScrubCustomItems.commands.LimitedTeleportPaperCreate;
 import main.ca.techgarage.ScrubCustomItems.commands.PlayerJoinHandler;
@@ -36,16 +45,20 @@ public class Main extends JavaPlugin implements Listener{
     private BukkitTask task;
     private PlayerJoinHandler playerJoinHandler;
     private Drops drops;
+    private LanguageManager languageManager;
 
 
 
-    
+
     @Override
     public void onEnable() {
+        // Load the language manager
+        languageManager = new LanguageManager(this);
+
         registerCommands();
         registerEvents();
         addRecipes();
-        getServer().getPluginManager().registerEvents(new flameCharge(this), this);
+        //getServer().getPluginManager().registerEvents(new flameCharge(this), this);
         drops = new Drops(this);
 
         playerJoinHandler = new PlayerJoinHandler();
@@ -54,22 +67,23 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("scythe").setExecutor(new Scythe());
         this.getCommand("headhunter").setExecutor(new HeadHunter());
         this.getCommand("freezeclock").setExecutor(new FreezeClock());
-        this.getCommand("flameaura").setExecutor(new FlameAura(this));
         this.getCommand("bubbleaura").setExecutor(new BubbleAura(this));
         this.getCommand("getaura").setExecutor(new FlameAura(this));
         this.getCommand("heavyscythe").setExecutor(new Heavy());
         this.getCommand("swiftscythe").setExecutor(new Swift());
-
         this.getCommand("abyssalscythe").setExecutor(new Abyssal());
         this.getCommand("smilesscythe").setExecutor(new Smile());
         this.getCommand("iciclescythe").setExecutor(new Icicle());
         this.getCommand("shulkerscythe").setExecutor(new Shulker());
-        this.getCommand("flamecharge").setExecutor(new flameCharge(this)); 
+       // this.getCommand("flamecharge").setExecutor(new flameCharge(this)); 
         this.getCommand("questbook").setExecutor(new QuestBook());
         this.getCommand("breezescythe").setExecutor(new Breeze());
         this.getCommand("backpack").setExecutor(new BackPacks());
         this.getCommand("claimlamp").setExecutor(new ClaimLamp());
         this.getCommand("endrodaura").setExecutor(new EnderAura(this));
+        this.getCommand("ashaura").setExecutor(new AshAura(this));
+        this.getCommand("heartaura").setExecutor(new HeartAura(this));
+        this.getCommand("spitaura").setExecutor(new SpitAura(this));
 
         
         
@@ -100,7 +114,7 @@ public class Main extends JavaPlugin implements Listener{
             getCommand("teleportsword").setExecutor(new TeleportSword(this));
         }
         if (getCommand("teleportpapercreate") != null) {
-            getCommand("teleportpapercreate").setExecutor(new TeleportPaperCreate(this));
+            getCommand("teleportpapercreate").setExecutor(new TeleportPaperCreate(null, languageManager));
         }
         if (getCommand("limitedteleportpapercreate") != null) {
             getCommand("limitedteleportpapercreate").setExecutor(new LimitedTeleportPaperCreate(this));
@@ -109,6 +123,7 @@ public class Main extends JavaPlugin implements Listener{
 
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new FlameAura(this), this);
+        getServer().getPluginManager().registerEvents(new AshAura(this), this);
         getServer().getPluginManager().registerEvents(new broadcast(), this);
         getServer().getPluginManager().registerEvents(new Edgestone(), this);
         getServer().getPluginManager().registerEvents(new ServerHeart(), this);
@@ -116,7 +131,7 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new TeleportSword(this), this);
         getServer().getPluginManager().registerEvents(new HeadHunter(), this);
         getServer().getPluginManager().registerEvents(new harmingstick(), this);
-        getServer().getPluginManager().registerEvents(new TeleportPaperCreate(this), this);
+        getServer().getPluginManager().registerEvents(new TeleportPaperCreate(null, languageManager), this);
         getServer().getPluginManager().registerEvents(new LimitedTeleportPaperCreate(this), this);
 
         getServer().getPluginManager().registerEvents(new QuestBook(), this);
@@ -133,6 +148,8 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new Shulker(), this);
         getServer().getPluginManager().registerEvents(new EnderAura(this), this);
         getServer().getPluginManager().registerEvents(new BubbleAura(this), this);
+        getServer().getPluginManager().registerEvents(new HeartAura(this), this);
+        getServer().getPluginManager().registerEvents(new SpitAura(this), this);
 
     }
 
@@ -149,8 +166,8 @@ public class Main extends JavaPlugin implements Listener{
         breeze.addIScytheRecipe(this);
         Heavy heavy = new Heavy();
         heavy.addHScytheRecipe(this);
-        Swift swift = new Swift();
-        swift.addHScytheRecipe(this);
+        /*Swift swift = new Swift();
+        swift.addSScytheRecipe(this);*/
 
 
 
@@ -160,4 +177,9 @@ public class Main extends JavaPlugin implements Listener{
     public static Main getInstance() {
         return getPlugin(Main.class);
     }
+
+	public NamespacedKey getSpawnPointKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -68,7 +69,29 @@ public class Heavy implements CommandExecutor, Listener {
         // Add the recipe to the server
         Bukkit.addRecipe(recipe);
     }
-
+    @EventHandler
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+        ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
+        
+        if (newItem != null && newItem.hasItemMeta()) {
+            ItemMeta meta = newItem.getItemMeta();
+            if (meta != null && meta.getPersistentDataContainer().has(Keys.HEAVY_SCYTHE, PersistentDataType.BOOLEAN)) {
+                // Add speed effect
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, Integer.MAX_VALUE, 1, true, false, false));
+            }
+        }
+        
+        // Remove the effect if the player is no longer holding the scythe
+        ItemStack oldItem = player.getInventory().getItem(event.getPreviousSlot());
+        if (oldItem != null && oldItem.hasItemMeta()) {
+            ItemMeta oldMeta = oldItem.getItemMeta();
+            if (oldMeta != null && oldMeta.getPersistentDataContainer().has(Keys.HEAVY_SCYTHE, PersistentDataType.BOOLEAN)) {
+                player.removePotionEffect(PotionEffectType.SLOWNESS);
+            }
+        }
+    }
+   
    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

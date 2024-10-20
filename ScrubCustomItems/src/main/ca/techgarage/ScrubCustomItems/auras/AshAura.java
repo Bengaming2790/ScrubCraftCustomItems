@@ -1,9 +1,7 @@
 package main.ca.techgarage.ScrubCustomItems.auras;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,12 +17,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 import main.ca.techgarage.ScrubCustomItems.Keys;
 import main.ca.techgarage.ScrubCustomItems.Main;
+import net.md_5.bungee.api.ChatColor;
 
-public class FlameAura implements Listener, CommandExecutor  {
+public class AshAura implements Listener, CommandExecutor {
+	private final Main plugin;
 
-    private final Main plugin;
-
-    public FlameAura(Main plugin) {
+    public AshAura(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -41,8 +39,8 @@ public class FlameAura implements Listener, CommandExecutor  {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("§6Flame Aura"); // Change color and name as desired
-            meta.getPersistentDataContainer().set(Keys.FLAME_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
+            meta.setDisplayName(ChatColor.BLUE +"Ash Aura"); // Change color and name as desired
+            meta.getPersistentDataContainer().set(Keys.ASH_AURA, PersistentDataType.BOOLEAN, true); // Add FLAME_AURA key
             item.setItemMeta(meta);
         }
         return item;
@@ -88,7 +86,7 @@ public class FlameAura implements Listener, CommandExecutor  {
                     double angle = i * Math.PI / 180;
                     double x = centerX + (radius * Math.cos(angle));
                     double z = centerZ + (radius * Math.sin(angle));
-                    player.getWorld().spawnParticle(Particle.FLAME, x, centerY, z, 0); // Adjust particle count if needed
+                    player.getWorld().spawnParticle(Particle.ASH, x, centerY, z, 0); // Adjust particle count if needed
                 }
             }
         }, 0L, 1L); // Runs every tick
@@ -103,7 +101,7 @@ public class FlameAura implements Listener, CommandExecutor  {
     private boolean hasAuraKey(ItemStack item) {
         if (item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
-            return meta.getPersistentDataContainer().has(Keys.FLAME_AURA, PersistentDataType.BOOLEAN);
+            return meta.getPersistentDataContainer().has(Keys.ASH_AURA, PersistentDataType.BOOLEAN);
         }
         return false;
     }
@@ -120,12 +118,12 @@ public class FlameAura implements Listener, CommandExecutor  {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("getaura")) {
+        if (command.getName().equalsIgnoreCase("ashaura")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 ItemStack auraItem = createAuraItem();
                 player.getInventory().addItem(auraItem);
-                player.sendMessage(ChatColor.GREEN + "You have been given a Flame Aura!");
+                player.sendMessage(ChatColor.GREEN + "You have been given an Ash Aura!");
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");

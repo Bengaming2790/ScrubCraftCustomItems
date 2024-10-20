@@ -47,6 +47,9 @@ public class Keys {
 	public static final NamespacedKey FLAME_AURA = new NamespacedKey(Main.getInstance(), "flameaura");
 	public static final NamespacedKey ENDER_AURA = new NamespacedKey(Main.getInstance(), "enderaura");
 	public static final NamespacedKey BUBBLE_AURA = new NamespacedKey(Main.getInstance(), "bubbleaura");
+	public static final NamespacedKey ASH_AURA = new NamespacedKey(Main.getInstance(), "ashaura");
+	public static final NamespacedKey HEART_AURA = new NamespacedKey(Main.getInstance(), "heartaura");
+	public static final NamespacedKey SPIT_AURA = new NamespacedKey(Main.getInstance(), "spitaura");
 
 	public static final NamespacedKey CLAIM_LAMP = new NamespacedKey(Main.getInstance(), "ClaimLamp");
 

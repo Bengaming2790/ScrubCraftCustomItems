@@ -37,7 +37,13 @@ jar {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/ca/techgarage/ScrubCustomItems/resources'
+        }
+    }
+}
 tasks.withType(Jar) {
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }

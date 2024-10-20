@@ -53,6 +53,12 @@ commands:
     aliases: [bs]
     permission: sc.customitems.give
     permission-message: "You do not have permission to use this command!"
+  swiftscythe:
+    description: "Gives the player a swift scythe."
+    usage: "/scythe <playername>"
+    aliases: [sws]
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!"
   abyssalscythe:
     description: Gives a player the Abyssal Scythe.
     usage: /<command> <player name>
@@ -113,11 +119,23 @@ commands:
     description: "Gives the player an Aura item."
     usage: "/<command>"
     permission: sc.customitems.give
-  flameaura:
+  endrodaura:
     description: "Gives the player an Aura item."
     usage: "/<command> <PlayerName>"
     permission: sc.customitems.give
-  endrodaura:
+  bubbleaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
+  ashaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
+  heartaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
+  spitaura:
     description: "Gives the player an Aura item."
     usage: "/<command> <PlayerName>"
     permission: sc.customitems.give

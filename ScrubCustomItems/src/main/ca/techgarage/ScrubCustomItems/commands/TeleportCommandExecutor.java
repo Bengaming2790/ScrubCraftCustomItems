@@ -44,7 +44,7 @@ public class TeleportCommandExecutor implements CommandExecutor {
             player.sendMessage(ChatColor.GREEN + "Learn the Rules of 10k to proceed!");
             return true;
         } else {
-            sender.sendMessage("Only players can use this command.");
+            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return false;
         }
     }
