@@ -54,7 +54,7 @@ public class Main extends JavaPlugin implements Listener{
     public void onEnable() {
         // Load the language manager
         languageManager = new LanguageManager(this);
-
+        languageManager.loadLanguage("en");
         registerCommands();
         registerEvents();
         addRecipes();

@@ -43,24 +43,24 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("teleportpapercreate")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(lang.getMessage("teleport_paper_create_only_player", "This command can only be executed by a player."));
+                sender.sendMessage(lang.getMessage("teleport_paper_create_only_player"));
                 return true;
             }
 
             Player player = (Player) sender;
 
             if (!player.hasPermission("sc.customitems.teleportpapercreate")) {
-                player.sendMessage(lang.getMessage("teleport_paper_create_no_permission", "You do not have permission to execute this command."));
+                player.sendMessage(lang.getMessage("teleport_paper_create_no_permission"));
                 return true;
             }
 
-            String locationName = args.length > 0 ? args[0].replace('_', ' ') : lang.getMessage("default_location_name", "Teleport Location");
-            String paperName = lang.getMessage("teleport_paper_name", "{location_name} Teleport Paper").replace("{location_name}", locationName);
+            String locationName = args.length > 0 ? args[0].replace('_', ' ') : lang.getMessage("default_location_name");
+            String paperName = lang.getMessage("teleport_paper_name").replace("{location_name}", locationName);
             Location loc = player.getLocation();
             ItemStack tppaper = createTeleportPaper(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getPitch(), loc.getYaw(), paperName, true, locationName);
 
             player.getInventory().addItem(tppaper);
-            player.sendMessage(lang.getMessage("teleport_paper_created", "Created a {paper_name} at your current location.").replace("{paper_name}", paperName));
+            player.sendMessage(lang.getMessage("teleport_paper_created").replace("{paper_name}", paperName));
 
             return true;
         }
@@ -106,7 +106,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
             player.removePotionEffect(PotionEffectType.NAUSEA);
             player.removePotionEffect(PotionEffectType.DARKNESS);
 
-            player.sendMessage(lang.getMessage("teleport_cancelled_inventory_open", "Teleport cancelled due to opening a container."));
+            player.sendMessage(lang.getMessage("teleport_cancelled_inventory_open"));
         }
     }
 
@@ -125,7 +125,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
             pendingTeleports.remove(player.getUniqueId());
             player.removePotionEffect(PotionEffectType.NAUSEA);
             player.removePotionEffect(PotionEffectType.DARKNESS);
-            player.sendMessage(lang.getMessage("teleportation_cancelled", "Teleportation cancelled."));
+            player.sendMessage(lang.getMessage("teleportation_cancelled"));
         }
     }
 
@@ -146,14 +146,14 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
                 Location teleportLocation = new Location(plugin.getServer().getWorld(worldName), tpX, tpY, tpZ, tpYaw, tpPitch);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 160, 1));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 160, 1));
-                player.sendMessage(lang.getMessage("teleporting_in_5_seconds", "Teleporting in 5 seconds..."));
+                player.sendMessage(lang.getMessage("teleporting_in_5_seconds"));
 
                 BukkitRunnable teleportTask = new BukkitRunnable() {
                     public void run() {
                         player.teleport(teleportLocation);
                         player.removePotionEffect(PotionEffectType.NAUSEA);
                         player.removePotionEffect(PotionEffectType.DARKNESS);
-                        player.sendMessage(lang.getMessage("teleported_successfully", "Teleported..."));
+                        player.sendMessage(lang.getMessage("teleported_successfully"));
 
                         pendingTeleports.remove(player.getUniqueId());
                     }
@@ -162,7 +162,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
                 pendingTeleports.put(player.getUniqueId(), teleportTask);
                 teleportTask.runTaskLater(plugin, 100L);
             } catch (NumberFormatException e) {
-                player.sendMessage(lang.getMessage("invalid_teleport_location", "Invalid teleport location."));
+                player.sendMessage(lang.getMessage("invalid_teleport_location"));
             }
         }
     }
@@ -174,8 +174,8 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
         if (meta != null) {
             meta.setDisplayName(displayName);
             meta.setLore(Arrays.asList(
-                lang.getMessage("teleport_paper_lore_permanent", "{status} Teleport Paper").replace("{status}", lang.getMessage("permanent_status", "Permanent")),
-                lang.getMessage("teleport_paper_lore_right_click", "Right-click to teleport to {location_name}").replace("{location_name}", locationName)
+                lang.getMessage("teleport_paper_lore_permanent").replace("{status}", lang.getMessage("permanent_status")),
+                lang.getMessage("teleport_paper_lore_right_click").replace("{location_name}", locationName)
             ));
             meta.addEnchant(Enchantment.SWIFT_SNEAK, 10, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
