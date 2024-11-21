@@ -52,6 +52,9 @@ public class Main extends JavaPlugin implements Listener{
 
     @Override
     public void onEnable() {
+
+	int pluginId = 23958; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
         // Load the language manager
         languageManager = new LanguageManager(this);
         languageManager.loadLanguage("en");
