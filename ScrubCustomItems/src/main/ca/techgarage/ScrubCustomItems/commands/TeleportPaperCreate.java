@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -26,41 +27,37 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import main.ca.techgarage.ScrubCustomItems.Keys;
 import main.ca.techgarage.ScrubCustomItems.Main;
-import main.ca.techgarage.ScrubCustomItems.LanguageManager;
 
 public class TeleportPaperCreate implements CommandExecutor, Listener {
 
     private final Main plugin;
-    private final LanguageManager lang; // Add LanguageManager reference
     private final Map<UUID, BukkitRunnable> pendingTeleports = new HashMap<>();
 
-    public TeleportPaperCreate(Main plugin, LanguageManager lang) {
+    public TeleportPaperCreate(Main plugin) {
         this.plugin = plugin;
-        this.lang = lang; // Initialize LanguageManager
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("teleportpapercreate")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(lang.getMessage("teleport_paper_create_only_player"));
+                sender.sendMessage(ChatColor.RED + "This command can only be executed by a player.");
                 return true;
             }
 
             Player player = (Player) sender;
 
             if (!player.hasPermission("sc.customitems.teleportpapercreate")) {
-                player.sendMessage(lang.getMessage("teleport_paper_create_no_permission"));
+                player.sendMessage(ChatColor.RED + "You do not have permission to execute this command.");
                 return true;
             }
-
-            String locationName = args.length > 0 ? args[0].replace('_', ' ') : lang.getMessage("default_location_name");
-            String paperName = lang.getMessage("teleport_paper_name").replace("{location_name}", locationName);
+            String locationName = args.length > 0 ? args[0].replace('_', ' ') : "Teleport Location";
+            String paperName = ChatColor.DARK_PURPLE + locationName + " Teleport Paper";
             Location loc = player.getLocation();
             ItemStack tppaper = createTeleportPaper(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getPitch(), loc.getYaw(), paperName, true, locationName);
 
             player.getInventory().addItem(tppaper);
-            player.sendMessage(lang.getMessage("teleport_paper_created").replace("{paper_name}", paperName));
+            player.sendMessage(ChatColor.GREEN + "Created a " + paperName + " at your current location.");
 
             return true;
         }
@@ -106,7 +103,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
             player.removePotionEffect(PotionEffectType.NAUSEA);
             player.removePotionEffect(PotionEffectType.DARKNESS);
 
-            player.sendMessage(lang.getMessage("teleport_cancelled_inventory_open"));
+            player.sendMessage(ChatColor.RED + "Teleport cancelled due to opening a container.");
         }
     }
 
@@ -125,7 +122,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
             pendingTeleports.remove(player.getUniqueId());
             player.removePotionEffect(PotionEffectType.NAUSEA);
             player.removePotionEffect(PotionEffectType.DARKNESS);
-            player.sendMessage(lang.getMessage("teleportation_cancelled"));
+            player.sendMessage(ChatColor.RED + "Teleportation cancelled.");
         }
     }
 
@@ -146,14 +143,14 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
                 Location teleportLocation = new Location(plugin.getServer().getWorld(worldName), tpX, tpY, tpZ, tpYaw, tpPitch);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 160, 1));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 160, 1));
-                player.sendMessage(lang.getMessage("teleporting_in_5_seconds"));
+                player.sendMessage(ChatColor.GREEN + "Teleporting in 5 seconds...");
 
                 BukkitRunnable teleportTask = new BukkitRunnable() {
                     public void run() {
                         player.teleport(teleportLocation);
                         player.removePotionEffect(PotionEffectType.NAUSEA);
                         player.removePotionEffect(PotionEffectType.DARKNESS);
-                        player.sendMessage(lang.getMessage("teleported_successfully"));
+                        player.sendMessage(ChatColor.GREEN + "Teleported...");
 
                         pendingTeleports.remove(player.getUniqueId());
                     }
@@ -162,7 +159,7 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
                 pendingTeleports.put(player.getUniqueId(), teleportTask);
                 teleportTask.runTaskLater(plugin, 100L);
             } catch (NumberFormatException e) {
-                player.sendMessage(lang.getMessage("invalid_teleport_location"));
+                player.sendMessage(ChatColor.RED + "Invalid teleport location.");
             }
         }
     }
@@ -174,9 +171,8 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
         if (meta != null) {
             meta.setDisplayName(displayName);
             meta.setLore(Arrays.asList(
-                lang.getMessage("teleport_paper_lore_permanent").replace("{status}", lang.getMessage("permanent_status")),
-                lang.getMessage("teleport_paper_lore_right_click").replace("{location_name}", locationName)
-            ));
+                ChatColor.DARK_PURPLE + (isPermanent ? "Permanent" : "Limited Use") + " Teleport Paper",
+                ChatColor.GRAY + "Right-click to teleport to " + locationName));
             meta.addEnchant(Enchantment.SWIFT_SNEAK, 10, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             PersistentDataContainer container = meta.getPersistentDataContainer();

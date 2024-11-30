@@ -3,20 +3,20 @@ package main.ca.techgarage.ScrubCustomItems.commands;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerSpawnChangeEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlayerJoinHandler implements Listener {
+public class PlayerSleptHandler implements Listener {
 
-    private static final File FILE = new File("plugins/ScrubCustomItems/players.txt");
+    private static final File FILE = new File("plugins/ScrubCustomItems/playersSleep.txt");
     private final Set<String> joinedPlayers = new HashSet<>();
 
-    public PlayerJoinHandler() {
+    public PlayerSleptHandler() {
         try {
             if (!FILE.exists()) {
                 // Create the file if it does not exist
@@ -30,7 +30,7 @@ public class PlayerJoinHandler implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerSpawnChange(PlayerSpawnChangeEvent event) {
         Player player = event.getPlayer();
         String playerName = player.getName();
 
@@ -38,11 +38,10 @@ public class PlayerJoinHandler implements Listener {
             joinedPlayers.add(playerName);
             save();
 
-            player.sendMessage(ChatColor.GREEN + "Set your spawn with a bed to join the rest of the server!");
             // Make the server execute the spreadplayers command for this player
             Bukkit.dispatchCommand(
                 Bukkit.getConsoleSender(),
-                "spreadplayers 0 0 10000 1000000 false " + player.getName()
+                "give "+ playerName + " minecraft:paper[custom_name='[\"\",{\"text\":\"Spawn Teleport Paper\",\"italic\":false,\"color\":\"dark_purple\"}]',lore=['[\"\",{\"text\":\"Permanant Teleport Paper\",\"italic\":false}]','[\"\",{\"text\":\"Right-click to teleport to Spawn\",\"italic\":false,\"color\":\"gray\"}]'],item_name=paper,rarity=rare,enchantments={levels:{swift_sneak:10},show_in_tooltip:false}, minecraft:custom_data={PublicBukkitValues: {\"scrubcustomitems:teleportpaper\": \"world,-1421.239246288276,155.0,100.46981862907359\"}}] 1"   
             );
         }
     }

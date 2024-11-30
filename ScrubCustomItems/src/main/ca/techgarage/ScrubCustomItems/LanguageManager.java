@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class LanguageManager {
-    private final Main plugin; // Your main plugin instance
+   /* private final Main plugin; // Your main plugin instance
     private FileConfiguration langConfig;
 
     public LanguageManager(Main plugin) {
@@ -26,6 +26,6 @@ public class LanguageManager {
 
         public String getMessage(String key) {
             return messages.getString(key, "Message not found");
-        }
+        } */
     }
 

@@ -25,11 +25,11 @@ import org.bukkit.scheduler.BukkitTask;
 import main.ca.techgarage.ScrubCustomItems.Keys;
 import main.ca.techgarage.ScrubCustomItems.Main;
 
-public class EnderAura implements Listener, CommandExecutor {
+public class WitchAura implements Listener, CommandExecutor {
     private final Main plugin;
     private final Map<Player, BukkitTask> particleTasks = new HashMap<>();
 
-    public EnderAura(Main plugin) {
+    public WitchAura(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -46,8 +46,9 @@ public class EnderAura implements Listener, CommandExecutor {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.BLUE + "End Rod Aura"); // Change color and name as desired
-            meta.getPersistentDataContainer().set(Keys.ENDER_AURA, PersistentDataType.BOOLEAN, true); // Add ENDER_AURA key
+            meta.setDisplayName(ChatColor.BLUE + "Witch Aura"); // Change color and name as desired
+            meta.setLore(Arrays.asList(ChatColor.GOLD + "Halloween 24 Limited Item"));
+            meta.getPersistentDataContainer().set(Keys.WITCH_AURA, PersistentDataType.BOOLEAN, true); // Add WITCH_AURA key
             item.setItemMeta(meta);
         }
         return item;
@@ -101,7 +102,7 @@ public class EnderAura implements Listener, CommandExecutor {
                     double angle = i * Math.PI / 180;
                     double x = centerX + (radius * Math.cos(angle));
                     double z = centerZ + (radius * Math.sin(angle));
-                    player.getWorld().spawnParticle(Particle.END_ROD, x, centerY, z, 0);
+                    player.getWorld().spawnParticle(Particle.WITCH, x, centerY, z, 0);
                 }
             }
         }, 0L, 1L); // Adjust the interval as needed
@@ -117,16 +118,16 @@ public class EnderAura implements Listener, CommandExecutor {
         }
     }
 
-    // Check if an item has the ENDER_AURA key
+    // Check if an item has the WITCH_AURA key
     private boolean hasAuraKey(ItemStack item) {
         if (item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
-            return meta.getPersistentDataContainer().has(Keys.ENDER_AURA, PersistentDataType.BOOLEAN);
+            return meta.getPersistentDataContainer().has(Keys.WITCH_AURA, PersistentDataType.BOOLEAN);
         }
         return false;
     }
 
-    // Check if the player has the aura item with the ENDER_AURA key
+    // Check if the player has the aura item with the WITCH_AURA key
     private boolean hasAuraItem(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
             if (item != null && hasAuraKey(item)) {
@@ -151,8 +152,8 @@ public class EnderAura implements Listener, CommandExecutor {
 
         ItemStack auraItem = createAuraItem();
         target.getInventory().addItem(auraItem);
-        sender.sendMessage(ChatColor.GREEN + "Gave a Ender Aura to " + target.getName());
-        target.sendMessage(ChatColor.GREEN + "You have received the End Rod Aura!");
+        sender.sendMessage(ChatColor.GREEN + "Gave a Witch Aura to " + target.getName());
+        target.sendMessage(ChatColor.GREEN + "You have received the Witch Aura!");
 
         return true;
     }

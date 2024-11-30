@@ -15,7 +15,7 @@ public class broadcast implements Listener {
         player.sendMessage(ChatColor.GREEN + "It is recommended you play with Optifine or CIT Resewn to get the full ScrubCraft Experience!");
         
         // Check if the player's name starts with "BR_"
-        if (player.getName().startsWith("BR_")) {
+        if (player.getName().startsWith("br_")) {
             player.sendMessage(ChatColor.GREEN + "While there is Bedrock Support it is better to play on the Java Edition of Minecraft!");
         }
     }

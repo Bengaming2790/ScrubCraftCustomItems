@@ -4,9 +4,14 @@ api-version: 1.21
 author: Regular Ben
 main: main.ca.techgarage.ScrubCustomItems.Main
 description: Created to serve Custom Items to the ScrubCraft server. Join the server @ scrubcraft.ca.
-depend: [WorldGuard, WorldEdit]
+depend: [WorldGuard, WorldEdit]#, BattleArena]
 commands:
   edgestone:
+    description: "Gives the Player Edgestone"
+    usage: "/edgestone <player name> <amount>"
+    permission: sc.customitems.give
+    permission-message: "You do not have permission to use this command!" 
+  candy:
     description: "Gives the Player Edgestone"
     usage: "/edgestone <player name> <amount>"
     permission: sc.customitems.give
@@ -89,6 +94,12 @@ commands:
     aliases: [shs]
     permission: sc.customitems.give
     permission-message: You do not have permission to use this command.
+  ghastscythe:
+    description: Gives a player the Shulker Scythe.
+    usage: /<command> <player name>
+    aliases: [gs]
+    permission: sc.customitems.give
+    permission-message: You do not have permission to use this command.
   heavyscythe:
     description: Gives a player the Heavy Scythe.
     usage: /<command> <player name>
@@ -115,7 +126,7 @@ commands:
     usage: "/harmingstick <player name>"
     permission: sc.customitems.give
     permission-message: "You do not have permission to use this command!"
-  getaura:
+  flameaura:
     description: "Gives the player an Aura item."
     usage: "/<command>"
     permission: sc.customitems.give
@@ -139,6 +150,10 @@ commands:
     description: "Gives the player an Aura item."
     usage: "/<command> <PlayerName>"
     permission: sc.customitems.give
+  witchaura:
+    description: "Gives the player an Aura item."
+    usage: "/<command> <PlayerName>"
+    permission: sc.customitems.give
   10k:
     description: "Teleports you to 10k rules"
     usage: "/10k"
@@ -150,6 +165,8 @@ commands:
   claimlamp:
      description: "Gives the player a Cliam Lamp"
      usage: "/<command> <player> <amount>"
+     permission: sc.customitems.give
+     
      
 
 permissions:

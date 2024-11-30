@@ -40,6 +40,12 @@ public class Keys {
 	public static final NamespacedKey QUEST_BOOK_KEY = new NamespacedKey(Main.getInstance(), "QuestBook");
 	public static final NamespacedKey HEAVY_SCYTHE = new NamespacedKey(Main.getInstance(), "HeavyScythe");
 	public static final NamespacedKey SWIFT_SCYTHE = new NamespacedKey(Main.getInstance(), "SwiftScythe");
+	public static final NamespacedKey GHAST_SCYTHE = new NamespacedKey(Main.getInstance(), "GhastScythe");
+
+	public static final NamespacedKey CANDY = new NamespacedKey(Main.getInstance(), "Candy");
+	public static final NamespacedKey CANDY_HEAD = new NamespacedKey(Main.getInstance(), "CandyHead");
+	public static final NamespacedKey WITCH_AURA = new NamespacedKey(Main.getInstance(), "WitchAura");
+
 
 	public static final NamespacedKey FREEZE_CLOCK = new NamespacedKey(Main.getInstance(), "FreezeClock");
 	public static final NamespacedKey BACK_PACK_ID = new NamespacedKey(Main.getInstance(), "BackPack");
