@@ -1,0 +1,8 @@
+# config.yml for ScrubCustomItems plugin
+
+# Teleport Paper settings
+teleport_papers:
+  - name: "Teleport Paper"
+    lore:
+      - "Right-click to teleport!"
+    material: "PAPER"

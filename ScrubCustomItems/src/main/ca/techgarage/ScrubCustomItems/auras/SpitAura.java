@@ -46,8 +46,7 @@ public class SpitAura implements Listener, CommandExecutor {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK); // Change to desired item
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.BLUE + "Witch Aura"); // Change color and name as desired
-            meta.setLore(Arrays.asList(ChatColor.GOLD + "Halloween 24 Limited Item"));
+            meta.setDisplayName(ChatColor.BLUE + "Spit Aura"); // Change color and name as desired
             meta.getPersistentDataContainer().set(Keys.SPIT_AURA, PersistentDataType.BOOLEAN, true); // Add SPIT_AURA key
             item.setItemMeta(meta);
         }

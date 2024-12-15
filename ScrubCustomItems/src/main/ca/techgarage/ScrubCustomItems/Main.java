@@ -1,70 +1,66 @@
 package main.ca.techgarage.ScrubCustomItems;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import main.ca.techgarage.ScrubCustomItems.Items.BackPacks;
-import main.ca.techgarage.ScrubCustomItems.Items.BloodDust;
-import main.ca.techgarage.ScrubCustomItems.Items.ClaimLamp;
-import main.ca.techgarage.ScrubCustomItems.Items.Edgestone;
-import main.ca.techgarage.ScrubCustomItems.Items.FreezeClock;
-import main.ca.techgarage.ScrubCustomItems.Items.HeadHunter;
-import main.ca.techgarage.ScrubCustomItems.Items.QuestBook;
-import main.ca.techgarage.ScrubCustomItems.Items.Scythe;
-import main.ca.techgarage.ScrubCustomItems.Items.ServerHeart;
-import main.ca.techgarage.ScrubCustomItems.Items.TeleportSword;
-import main.ca.techgarage.ScrubCustomItems.Items.flameCharge;
-import main.ca.techgarage.ScrubCustomItems.Items.harmingstick;
-import main.ca.techgarage.ScrubCustomItems.auras.EnderAura;
-import main.ca.techgarage.ScrubCustomItems.auras.FlameAura;
-import main.ca.techgarage.ScrubCustomItems.auras.HeartAura;
-import main.ca.techgarage.ScrubCustomItems.auras.SpitAura;
-import main.ca.techgarage.ScrubCustomItems.auras.WitchAura;
-import main.ca.techgarage.ScrubCustomItems.auras.AshAura;
-import main.ca.techgarage.ScrubCustomItems.auras.BubbleAura;
-import main.ca.techgarage.ScrubCustomItems.commands.LimitedTeleportPaperCreate;
-import main.ca.techgarage.ScrubCustomItems.commands.PlayerJoinHandler;
-import main.ca.techgarage.ScrubCustomItems.commands.PlayerSleptHandler;
-import main.ca.techgarage.ScrubCustomItems.commands.TeleportCommandExecutor;
-import main.ca.techgarage.ScrubCustomItems.commands.TeleportPaperCreate;
-import main.ca.techgarage.ScrubCustomItems.scythes.Abyssal;
-import main.ca.techgarage.ScrubCustomItems.scythes.Breeze;
-import main.ca.techgarage.ScrubCustomItems.scythes.Ghast;
-import main.ca.techgarage.ScrubCustomItems.scythes.Heavy;
-import main.ca.techgarage.ScrubCustomItems.scythes.Icicle;
-import main.ca.techgarage.ScrubCustomItems.scythes.Shulker;
-import main.ca.techgarage.ScrubCustomItems.scythes.Smile;
-import main.ca.techgarage.ScrubCustomItems.scythes.Swift;
-import main.ca.techgarage.ScrubCustomItems.Items.Candy;
-public class Main extends JavaPlugin implements Listener{
+import main.ca.techgarage.ScrubCustomItems.Items.*;
+import main.ca.techgarage.ScrubCustomItems.auras.*;
+import main.ca.techgarage.ScrubCustomItems.commands.*;
+import main.ca.techgarage.ScrubCustomItems.scythes.*;
+
+public class Main extends JavaPlugin implements Listener {
     private BukkitTask task;
     private PlayerJoinHandler playerJoinHandler;
     private Drops drops;
     private LanguageManager languageManager;
-
-
-
+    private TeleportPaperGUI teleportPaperGUI;
 
     @Override
     public void onEnable() {
-        // Load the language manager
+        // Initialize TeleportPaperGUI
+        teleportPaperGUI = new TeleportPaperGUI(this);
 
-    	int pluginId = 23958; // <-- Replace with the id of your plugin!
+        getLogger().info("ScrubCustomItems plugin is enabling...");
+        
+        PluginCommand teleportCommand = getCommand("teleportpapergui");
+
+        if (teleportCommand != null) {
+            teleportCommand.setExecutor(new TeleportPaperGUI(this));
+        } else {
+            getLogger().warning("The teleportpapergui command is not registered in plugin.yml!");
+        }
+
+        getServer().getPluginManager().registerEvents(new TeleportPaperGUI(this), this);
+    
+        
+        
+        // Load the language manager
+        int pluginId = 23958; // Replace with your plugin ID
         Metrics metrics = new Metrics(this, pluginId);
+        this.saveDefaultConfig();
+        
+        // Now you can load or manipulate the data in the config
+        // Register Commands
         registerCommands();
+
+        // Register Events
         registerEvents();
+
+        // Add Recipes
         addRecipes();
+
+        // Drops manager
         drops = new Drops(this);
 
+        // Initialize Player Join Handler
         playerJoinHandler = new PlayerJoinHandler();
+
+        // Register additional commands and handlers
         this.getCommand("10k").setExecutor(new TeleportCommandExecutor());
         this.getCommand("candy").setExecutor(new Candy());
         this.getServer().getPluginManager().registerEvents(playerJoinHandler, this);
@@ -92,19 +88,33 @@ public class Main extends JavaPlugin implements Listener{
         this.getCommand("spitaura").setExecutor(new SpitAura(this));
         this.getCommand("witchaura").setExecutor(new WitchAura(this));
 
+        this.getServer().getPluginManager().registerEvents(playerJoinHandler, this);
+        this.getServer().getPluginManager().registerEvents(new PlayerSleptHandler(), this);
         
-        
-        getLogger().info("Scrub Custom Items has been enabled and drops are running.");
+        // Load the GUI inventory from the config
+        teleportPaperGUI.loadInventoryFromConfig();
+
+        getLogger().info("Scrub Custom Items has been enabled.");
     }
-          
+
     @Override
     public void onDisable() {
+        // Save GUI inventory to the config
+        if (teleportPaperGUI != null) {
+            teleportPaperGUI.saveInventoryToConfig();
+        }
+
+        // Shutdown player join handler
         if (playerJoinHandler != null) {
             playerJoinHandler.shutdown();
         }
+
+        // Cancel scheduled tasks
         if (task != null && !task.isCancelled()) {
             task.cancel();
         }
+
+        getLogger().info("Scrub Custom Items has been disabled.");
     }
 
     private void registerCommands() {
@@ -121,17 +131,15 @@ public class Main extends JavaPlugin implements Listener{
             getCommand("teleportsword").setExecutor(new TeleportSword(this));
         }
         if (getCommand("teleportpapercreate") != null) {
-            getCommand("teleportpapercreate").setExecutor(new TeleportPaperCreate(this));
+            getCommand("teleportpapercreate").setExecutor(new TeleportPaperCreate(this, teleportPaperGUI));
         }
         if (getCommand("limitedteleportpapercreate") != null) {
             getCommand("limitedteleportpapercreate").setExecutor(new LimitedTeleportPaperCreate(this));
         }
+
     }
 
     private void registerEvents() {
-        //getServer().getPluginManager().registerEvents(new flameCharge(this), this);
-
-    	
         getServer().getPluginManager().registerEvents(new FlameAura(this), this);
         getServer().getPluginManager().registerEvents(new AshAura(this), this);
         getServer().getPluginManager().registerEvents(new broadcast(), this);
@@ -141,41 +149,35 @@ public class Main extends JavaPlugin implements Listener{
         getServer().getPluginManager().registerEvents(new TeleportSword(this), this);
         getServer().getPluginManager().registerEvents(new HeadHunter(), this);
         getServer().getPluginManager().registerEvents(new harmingstick(), this);
-        getServer().getPluginManager().registerEvents(new TeleportPaperCreate(this), this);
-        getServer().getPluginManager().registerEvents(new LimitedTeleportPaperCreate(this), this);
-        //getServer().getPluginManager().registerEvents(new Candy(), this);
-
         getServer().getPluginManager().registerEvents(new QuestBook(), this);
         getServer().getPluginManager().registerEvents(new FreezeClock(), this);
         getServer().getPluginManager().registerEvents(new Breeze(), this);
         getServer().getPluginManager().registerEvents(new BackPacks(), this);
         getServer().getPluginManager().registerEvents(new ClaimLamp(), this);
-        getServer().getPluginManager().registerEvents(new Swift(), this);
-
         getServer().getPluginManager().registerEvents(new Heavy(), this);
+        getServer().getPluginManager().registerEvents(new Swift(), this);
         getServer().getPluginManager().registerEvents(new Abyssal(), this);
         getServer().getPluginManager().registerEvents(new Smile(), this);
         getServer().getPluginManager().registerEvents(new Icicle(), this);
         getServer().getPluginManager().registerEvents(new Shulker(), this);
         getServer().getPluginManager().registerEvents(new Ghast(), this);
-
         getServer().getPluginManager().registerEvents(new EnderAura(this), this);
         getServer().getPluginManager().registerEvents(new BubbleAura(this), this);
         getServer().getPluginManager().registerEvents(new HeartAura(this), this);
         getServer().getPluginManager().registerEvents(new SpitAura(this), this);
         getServer().getPluginManager().registerEvents(new WitchAura(this), this);
 
+        // Register TeleportPaperGUI as an event listener
     }
 
     private void addRecipes() {
-        // Register existing recipes
         Bukkit.addRecipe(Edgestone.getEdgestoneRecipe(this));
         Scythe scythe = new Scythe();
         scythe.addScytheRecipe(this);
         Icicle icicle = new Icicle();
-        icicle.addIScytheRecipe(this); 
+        icicle.addIScytheRecipe(this);
         Shulker shulker = new Shulker();
-        shulker.addIScytheRecipe(this); 
+        shulker.addIScytheRecipe(this);
         Breeze breeze = new Breeze();
         breeze.addIScytheRecipe(this);
         Heavy heavy = new Heavy();
@@ -184,14 +186,9 @@ public class Main extends JavaPlugin implements Listener{
         swift.addSScytheRecipe(this);
         Ghast ghast = new Ghast();
         ghast.addIScytheRecipe(this);
-
-
-
-        // Register new recipes
     }
 
     public static Main getInstance() {
         return getPlugin(Main.class);
     }
-
 }

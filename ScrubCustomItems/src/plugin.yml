@@ -166,9 +166,9 @@ commands:
      description: "Gives the player a Cliam Lamp"
      usage: "/<command> <player> <amount>"
      permission: sc.customitems.give
-     
-     
-
+  teleportpapergui:
+    description: Opens the Teleport Paper GUI.
+    usage: /<command>
 permissions:
   sc.customitems.give:
     description: "Allows the player to give custom items"

@@ -33,9 +33,17 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
     private final Main plugin;
     private final Map<UUID, BukkitRunnable> pendingTeleports = new HashMap<>();
 
-    public TeleportPaperCreate(Main plugin) {
+    
+    private final TeleportPaperGUI teleportPaperGUI;
+
+    public TeleportPaperCreate(Main plugin, TeleportPaperGUI gui) {
         this.plugin = plugin;
+        this.teleportPaperGUI = gui;
     }
+
+    // After creating a teleport paper
+   
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -179,8 +187,10 @@ public class TeleportPaperCreate implements CommandExecutor, Listener {
             container.set(Keys.TELEPORT_PAPER, PersistentDataType.STRING, worldName + "," + x + "," + y + "," + z + "," + pitch + "," + yaw);
 
             tppaper.setItemMeta(meta);
+            
         }
 
         return tppaper;
+        
     }
 }
